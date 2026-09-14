@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Make a claim — Alfam Insurance Brokers{% endblock %}
+{% block body %}
+<div class="hero" style="padding:44px 0">
+  <div class="wrap"><h1>Make a claim</h1>
+    <p>Notify us first. We prepare the paperwork, deal with the loss adjuster and push the
+      insurer — you should not have to manage a claim alone.</p></div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="grid">
+      <div class="card" style="grid-column:span 2">
+        <h3>Claim notification</h3>
+        <form method="post">
+          <div class="row">
+            <div><label>Your name</label><input name="name" required></div>
+            <div><label>Phone / WhatsApp</label><input name="phone" required></div>
+          </div>
+          <div class="row">
+            <div><label>Email</label><input type="email" name="email" required></div>
+            <div><label>Policy number / insurer</label><input name="policy"></div>
+          </div>
+          <div class="row">
+            <div><label>Date of loss</label><input type="date" name="date"></div>
+            <div><label>Type of loss</label>
+              <select name="type">
+                <option>Motor accident</option><option>Fire</option>
+                <option>Burglary / theft</option><option>Marine / goods in transit</option>
+                <option>Engineering / machinery breakdown</option>
+                <option>Life / group life</option><option>Other</option>
+              </select></div>
+          </div>
+          <label>What happened?</label>
+          <textarea name="message" required></textarea>
+          <p style="margin-top:18px"><button class="btn" type="submit">Notify Alfam</button></p>
+        </form>
+      </div>
+      <div>
+        <div class="card" style="margin-bottom:14px">
+          <h3>What to do now</h3>
+          <p class="muted" style="margin:0 0 8px">1 · Notify us immediately — delay is the most
+            common reason claims are reduced.</p>
+          <p class="muted" style="margin:0 0 8px">2 · Secure the risk and prevent further loss
+            (the policy expects it).</p>
+          <p class="muted" style="margin:0 0 8px">3 · Preserve evidence: photos, police report,
+            fire service report, witness details.</p>
+          <p class="muted" style="margin:0">4 · Do not repair or admit liability before the
+            adjuster's inspection.</p>
+        </div>
+        <div class="card">
+          <h3>Emergency line</h3>
+          <p class="muted" style="margin:0">{{ brand.phone }}<br>{{ brand.email }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

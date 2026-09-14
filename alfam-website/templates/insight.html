@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}{{ a.title }} — Alfam Insurance Brokers{% endblock %}
+{% block meta %}{{ a.summary }}{% endblock %}
+{% block body %}
+<section>
+  <div class="wrap" style="max-width:760px">
+    <p class="muted"><a href="/insights">← Insights</a> · {{ a.category }} · {{ a.date }}</p>
+    <h1 style="color:var(--green);font-size:32px;line-height:1.2;margin:6px 0 8px">{{ a.title }}</h1>
+    <p class="lead">{{ a.summary }}</p>
+    {% for p in a.body %}
+      <p style="font-size:16.5px;line-height:1.75">{{ p }}</p>
+    {% endfor %}
+    <div class="card" style="margin-top:26px;background:var(--cream);border-color:var(--gold)">
+      <b>Talk to a broker about this</b>
+      <p class="muted" style="margin:6px 0 10px">General guidance only — your own terms depend on
+        the policy wording and the underwriter.</p>
+      <a class="btn" href="/quote">Request a quote</a>
+      <a class="btn dark" href="/contact" style="margin-left:8px">Contact us</a>
+    </div>
+    {{ ad('insight-inarticle', 120) }}
+  </div>
+</section>
+{% endblock %}

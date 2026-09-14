@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Testimonials — broker desk{% endblock %}
+{% block body %}
+<section>
+  <div class="wrap" style="max-width:840px">
+    <h2>Testimonials</h2>
+    <p class="lead">Shown on the homepage and the Our clients page. Ask three or four clients for
+      two sentences each — that is the highest-converting content on any broking site.</p>
+    <div class="card">
+      <form method="post">
+        <label>Quote</label><textarea name="quote" required></textarea>
+        <div class="row">
+          <div><label>Name</label><input name="author" required></div>
+          <div><label>Organisation</label><input name="org"></div>
+        </div>
+        <label>Sector</label><input name="sector" placeholder="Oil & Gas">
+        <p style="margin-top:16px">
+          <button class="btn" type="submit">Add testimonial</button>
+          <label style="display:inline;font-weight:400;margin-left:14px">
+            <input type="checkbox" name="clear" value="yes" style="width:auto">
+            also delete sample entries
+          </label>
+        </p>
+      </form>
+    </div>
+    <table style="margin-top:20px">
+      <tr><th>Quote</th><th>Author</th><th>Organisation</th></tr>
+      {% for r in rows %}
+      <tr><td>{{ r['quote'][:180] }}</td><td><b>{{ r['author'] }}</b></td>
+          <td class="muted">{{ r['org'] }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</section>
+{% endblock %}

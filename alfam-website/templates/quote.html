@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Request a quote — Alfam Insurance Brokers{% endblock %}
+{% block body %}
+<section>
+  <div class="wrap" style="max-width:760px">
+    <h2>Request a quote</h2>
+    <p class="lead">Tell us the risk. We take it to {{ insurer_count }} NAICOM-capitalised
+      insurers and come back with one ranked broker report.</p>
+    <form method="post" class="card">
+      <div class="row">
+        <div><label>Your name</label><input name="client_name" required></div>
+        <div><label>Company (optional)</label><input name="client_company"></div>
+      </div>
+      <div class="row">
+        <div><label>Email</label><input type="email" name="client_email" required></div>
+        <div><label>Phone / WhatsApp</label><input name="client_phone" required></div>
+      </div>
+
+      <label>Type of cover</label>
+      <select name="product" id="product" onchange="toggleMotor()">
+        {% for k, v in products.items() %}<option value="{{ k }}">{{ v.label }}</option>{% endfor %}
+      </select>
+
+      <div id="motorbox" style="display:none;background:var(--cream);border:1px solid var(--gold);
+           border-radius:10px;padding:14px;margin-top:12px">
+        <div class="row">
+          <div><label>Cover required</label>
+            <select name="motor_cover">
+              <option value="comprehensive">Comprehensive (own damage + third party)</option>
+              <option value="tp">Third-party only (NAICOM tariff)</option>
+            </select></div>
+          <div><label>Vehicle class</label>
+            <select name="motor_class">
+              {% for k, v in motor_tp.items() %}
+              <option value="{{ k }}">{{ v.label }} — ₦{{ '{:,.0f}'.format(v.premium) }}</option>
+              {% endfor %}
+            </select></div>
+        </div>
+        <p class="muted" style="margin:8px 0 0;font-size:13px">
+          Third-party rates are fixed by NAICOM and identical across insurers. Comprehensive
+          may not be priced below 5% of the sum insured after discounts.</p>
+      </div>
+
+      <label>What is being insured?</label>
+      <input name="asset" placeholder="e.g. 2019 Toyota Hilux, Lagos; warehouse stock, Lekki">
+
+      <div class="row">
+        <div><label>Sum insured required (₦)</label><input type="number" name="sum_insured" required></div>
+        <div><label>Adjuster's assessed value (₦, if known)</label><input type="number" name="adjuster_value"></div>
+      </div>
+
+      <label>Anything we should know?</label>
+      <textarea name="notes" placeholder="Claims history, security, drivers, warranties, occupancy…"></textarea>
+
+      <p style="margin-top:22px"><button class="btn" type="submit">Send to Alfam</button></p>
+      <p class="muted" style="font-size:13px;margin:10px 0 0">Indicative only — your terms come
+        from the underwriter, and we negotiate them on your behalf.</p>
+    </form>
+  </div>
+</section>
+<script>
+function toggleMotor(){
+  document.getElementById('motorbox').style.display =
+    (document.getElementById('product').value === 'motor') ? 'block' : 'none';
+}
+toggleMotor();
+</script>
+{% endblock %}

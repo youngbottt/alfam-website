@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Our people — Alfam Insurance Brokers{% endblock %}
+{% block body %}
+<div class="hero" style="padding:46px 0">
+  <div class="wrap"><h1>Our people</h1>
+    <p>Broking is a relationship business. These are the people who will handle your cover and
+      your claims.</p></div>
+</div>
+<section>
+  <div class="wrap">
+    <div class="grid">
+      {% for r in rows %}
+      <div class="card">
+        <div class="ad-placeholder" style="height:150px;margin-bottom:14px">
+          Photograph — {{ r['role'] }}
+        </div>
+        <h3>{{ r['name'] }}</h3>
+        <div class="muted" style="font-size:13.5px;margin-bottom:8px">{{ r['role'] }}</div>
+        <p class="muted" style="margin:0;font-size:14px">{{ r['bio'] }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    <p class="muted" style="margin-top:18px;font-size:13px">
+      Add names, biographies and photographs from the broker desk:
+      <a href="/admin/team">/admin/team</a>. We have left placeholder roles rather than invent
+      people — send us the real names and we will load them.
+    </p>
+  </div>
+</section>
+{% endblock %}

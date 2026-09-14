@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Track your request — Alfam{% endblock %}
+{% block body %}
+<section>
+  <div class="wrap" style="max-width:640px">
+    <h2>Track your request</h2>
+    <p class="lead">Enter the reference we sent you (for example ALF-260901-A1B2) to see where
+      your placement has reached.</p>
+    <form method="post" class="card">
+      <label>Reference</label>
+      <input name="ref" placeholder="ALF-260901-XXXX" required>
+      <p style="margin-top:16px"><button class="btn" type="submit">Track</button></p>
+    </form>
+
+    {% if ref %}
+    <div class="card" style="margin-top:18px">
+      {% if r %}
+        <h3>{{ r['ref'] }}</h3>
+        <p class="muted" style="margin:0 0 8px">
+          {{ products.get(r['product'], {}).get('label', '') }} ·
+          ₦{{ '{:,.0f}'.format(r['sum_insured']) }} · raised {{ r['created'][:10] }}</p>
+        <p><b>Status:</b> {{ r['status'] }}</p>
+        <table style="margin-top:10px">
+          <tr><th>Insurer</th><th>Response</th></tr>
+          {% for f in rfqs %}
+          <tr><td>{{ f['insurer'] }}</td><td>{{ f['status'] }}</td></tr>
+          {% endfor %}
+        </table>
+        <p class="muted" style="font-size:13px;margin-top:10px">
+          Your broker is handling the negotiations. You will receive the consolidated report by
+          email when terms are in.
+        </p>
+      {% else %}
+        <p class="muted">No request found for <b>{{ ref }}</b>. Check the reference, or
+          <a href="/contact">contact us</a> and we will look it up.</p>
+      {% endif %}
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

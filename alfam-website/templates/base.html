@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>{% block title %}Alfam Insurance Brokers — Nigeria{% endblock %}</title>
+<meta name="description" content="{% block meta %}Alfam Insurance Brokers Limited — Lagos, Lekki and Abuja. Insurance broking, risk advice and claims support since 1977.{% endblock %}"/>
+<link rel="icon" href="/static/img/favicon.png" sizes="any"/>
+<link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="{{ brand.name }}"/>
+<meta property="og:title" content="{% block ogtitle %}{{ brand.name }} — Insurance Brokers, Lagos{% endblock %}"/>
+<meta property="og:description" content="{% block ogdesc %}Insurance broking, risk management and claims support in Nigeria since {{ brand.founded }}. Lagos · Lekki · Abuja.{% endblock %}"/>
+<meta property="og:image" content="{{ request.url_root }}static/img/og.png"/>
+<meta property="og:url" content="{{ request.url }}"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="theme-color" content="#0b5d41"/>
+<style>
+  :root{
+    --green:#0b5d41; --green-d:#073a29; --gold:#caa33f; --cream:#fff7d7;
+    --ink:#25302b; --muted:#5c6a60; --line:#dce7df; --bg:#fbf8f1;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  a{color:var(--green);text-decoration:none}
+  a:hover{color:var(--gold)}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+
+  header{background:var(--green);color:#fff;position:sticky;top:0;z-index:50;box-shadow:0 2px 12px rgba(0,0,0,.15)}
+  header .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 20px}
+  .brand{display:flex;align-items:center;gap:10px;color:#fff}
+  .brand img{height:44px;background:#fff;border-radius:8px;padding:3px}
+  .brand b{font-size:17px;letter-spacing:.3px;display:block;line-height:1.1}
+  .brand span{color:var(--gold);font-size:10px;letter-spacing:2px}
+  nav{display:flex;flex-wrap:wrap;gap:2px;align-items:center}
+  nav a{color:#eaf3ee;padding:8px 11px;border-radius:7px;font-weight:600;font-size:14.5px}
+  nav a:hover,nav a.on{background:rgba(255,255,255,.13);color:#fff}
+  nav a.cta{background:var(--gold);color:#25302b}
+  .burger{display:none;background:none;border:0;color:#fff;font-size:24px;cursor:pointer}
+  @media(max-width:880px){
+    nav{display:none;position:absolute;left:0;right:0;top:64px;background:var(--green-d);
+        flex-direction:column;padding:10px;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+    nav.open{display:flex}
+    .burger{display:block}
+  }
+
+  .hero{background:linear-gradient(135deg,var(--green-d),var(--green) 60%,#0e6f4d);color:#fff;padding:66px 0 54px}
+  .hero h1{font-size:44px;line-height:1.12;margin:0 0 14px;font-weight:800}
+  .hero p{font-size:18px;color:#dbeae2;margin:0 0 24px;max-width:660px}
+  .btn{display:inline-block;background:var(--gold);color:#25302b;padding:13px 24px;border-radius:8px;
+       font-weight:700;border:0;cursor:pointer;font-size:15px}
+  .btn.ghost{background:transparent;border:2px solid #fff;color:#fff}
+  .btn.dark{background:var(--green);color:#fff}
+  .btn:hover{filter:brightness(1.07);color:#25302b}
+  .btn.ghost:hover,.btn.dark:hover{color:#fff}
+
+  .badge50{display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,.12);
+     border:1px solid var(--gold);border-radius:99px;padding:6px 16px;font-size:13.5px;margin-bottom:18px}
+  .badge50 b{color:var(--gold)}
+
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:28px 0 0}
+  .stat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:14px 16px}
+  .stat b{display:block;font-size:26px;color:#fff}
+  .stat span{font-size:12.5px;color:#cfe0d5}
+
+  section{padding:46px 0}
+  section.alt{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  h2{color:var(--green);font-size:28px;margin:0 0 6px;font-weight:800}
+  h3{color:var(--green);margin:0 0 6px;font-size:18px}
+  .muted{color:var(--muted)}
+  .lead{font-size:17px;color:var(--muted);margin:0 0 22px;max-width:760px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:18px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px}
+  .card:hover{box-shadow:0 6px 22px rgba(11,93,65,.09)}
+  .step{background:#fff;border:1px solid var(--line);border-left:5px solid var(--gold);
+        border-radius:10px;padding:16px 18px;margin-bottom:10px}
+  .step b{color:var(--green)}
+
+  form label{display:block;font-weight:600;margin:14px 0 6px;font-size:14px}
+  input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;
+        font:inherit;background:#fff;color:var(--ink)}
+  textarea{min-height:80px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  table{width:100%;border-collapse:collapse;background:#fff;font-size:14px}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left}
+  th{background:var(--green);color:#fff;font-size:13px}
+  tr.best td{background:var(--cream);font-weight:700}
+  .pill{display:inline-block;padding:3px 10px;border-radius:99px;font-size:12px;font-weight:700}
+  .pill.new{background:#eef3f0;color:var(--green)}
+  .pill.wait{background:#fff2cc;color:#8a6d1a}
+  .pill.got{background:#e3f1e8;color:var(--green)}
+
+  /* Google Ads slots — banners only, never popups */
+  .adslot{margin:26px 0;text-align:center}
+  .ad-placeholder{border:1px dashed #c9d6cd;border-radius:10px;background:#f4f8f5;color:#93a89c;
+     display:flex;align-items:center;justify-content:center;font-size:12.5px;letter-spacing:.5px}
+
+  .wafloat{position:fixed;right:16px;bottom:16px;z-index:70;background:#25d366;color:#083a29;
+     font-weight:800;padding:12px 18px;border-radius:99px;box-shadow:0 6px 20px rgba(0,0,0,.22);
+     font-size:14px}
+  .wafloat:hover{color:#083a29;filter:brightness(1.05)}
+  @media(max-width:880px){.wafloat{bottom:70px;right:12px;font-size:13px;padding:11px 15px}}
+
+  .bottomnav{background:var(--green-d);border-top:1px solid rgba(255,255,255,.12)}
+  .bottomnav .wrap{display:flex;justify-content:center;gap:4px;flex-wrap:wrap;padding:10px 20px}
+  .bottomnav a{color:#eaf3ee;padding:8px 15px;border-radius:8px;font-weight:600;font-size:14.5px}
+  .bottomnav a:hover{background:rgba(255,255,255,.12);color:#fff}
+  @media(max-width:880px){
+    .bottomnav{position:fixed;left:0;right:0;bottom:0;z-index:60;box-shadow:0 -2px 14px rgba(0,0,0,.22)}
+    .bottomnav a{font-size:12px;padding:9px 9px}
+    body{padding-bottom:58px}
+  }
+
+  footer{background:var(--green-d);color:#cfe0d5;padding:34px 0 20px;font-size:14px}
+  footer h4{color:#fff;margin:0 0 8px;font-size:14px;letter-spacing:1px}
+  footer a{color:#cfe0d5}
+  footer a:hover{color:var(--gold)}
+  .fgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:22px}
+  .flash{background:var(--cream);border:1px solid var(--gold);padding:12px 16px;border-radius:8px;margin:16px 0}
+  .timeline{border-left:3px solid var(--gold);margin-left:8px;padding-left:20px}
+  .timeline div{position:relative;padding:0 0 18px}
+  .timeline div:before{content:"";position:absolute;left:-29px;top:6px;width:13px;height:13px;border-radius:50%;
+     background:var(--green);border:3px solid #fff;box-shadow:0 0 0 2px var(--gold)}
+  .timeline b{color:var(--green)}
+  @media(max-width:640px){.row{grid-template-columns:1fr}.hero h1{font-size:30px}}
+</style>
+<script>
+function toggleNav(){document.getElementById('nav').classList.toggle('open')}
+</script>
+</head>
+<body>
+
+{% macro ad(slot, h=90) %}
+<div class="adslot">
+  {% if adsense %}
+    <ins class="adsbygoogle" style="display:block" data-ad-client="{{ adsense }}"
+         data-ad-slot="{{ slot }}" data-ad-format="auto" data-full-width-responsive="true"></ins>
+  {% else %}
+    <div class="ad-placeholder" style="height:{{ h }}px">Google Ads slot — {{ slot }}</div>
+  {% endif %}
+</div>
+{% endmacro %}
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">
+      <img src="/static/img/emblem.png" alt="Alfam Insurance Brokers"/>
+      <span><b>ALFAM</b><span>INSURANCE BROKERS</span></span>
+    </a>
+    <button class="burger" onclick="toggleNav()">☰</button>
+    <nav id="nav">
+      <a href="/about">About us</a>
+      <a href="/services">Services</a>
+      <a href="/clients">Our clients</a>
+      <a href="/insights">Insights</a>
+      <a href="/team">Our people</a>
+      <a href="/claims">Claims</a>
+      <a href="/contact">Contact</a>
+      <a class="cta" href="/quote">Get a quote</a>
+    </nav>
+  </div>
+</header>
+
+{% with msgs = get_flashed_messages() %}{% if msgs %}
+  <div class="wrap">{% for m in msgs %}<div class="flash">{{ m }}</div>{% endfor %}</div>
+{% endif %}{% endwith %}
+
+{% block body %}{% endblock %}
+
+<nav class="bottomnav">
+  <div class="wrap">
+    <a href="/about">About us</a>
+    <a href="/services">Services</a>
+    <a href="/clients">Our clients</a>
+    <a href="/insights">Insights</a>
+    <a href="/team">Our people</a>
+    <a href="/claims">Claims</a>
+    <a href="/contact">Contact</a>
+  </div>
+</nav>
+
+<a class="wafloat" href="https://wa.me/2347083060861" target="_blank" rel="noopener"
+   aria-label="Chat with Alfam on WhatsApp">WhatsApp us</a>
+
+<footer>
+  <div class="wrap fgrid">
+    <div>
+      <h4>{{ brand.name }}</h4>
+      {{ brand.hq }}<br/>
+      {{ brand.phone }}<br/>
+      {{ brand.email }}<br/>
+      {{ brand.web }}
+    </div>
+    <div>
+      <h4>Offices</h4>
+      {% for name, addr in brand.offices %}
+        <div style="margin-bottom:8px"><b style="color:#fff">{{ name }}</b><br/>{{ addr }}</div>
+      {% endfor %}
+    </div>
+    <div>
+      <h4>Cover we place</h4>
+      {% for k, v in (products.items()|list)[:6] %}<div>{{ v.label }}</div>{% endfor %}
+      <a href="/services">All services →</a>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <div><a href="/about">About us</a></div>
+      <div><a href="/team">Our people</a></div>
+      <div><a href="/clients">Our clients</a></div>
+      <div><a href="/insights">Insights</a></div>
+      <div><a href="/claims">Make a claim</a></div>
+      <div><a href="/track">Track your request</a></div>
+      <div><a href="/quote">Get a quote</a></div>
+      <div><a href="/privacy">Privacy</a></div>
+      <div><a href="/admin">Broker desk</a></div>
+    </div>
+  </div>
+  <div class="wrap" style="margin-top:22px;border-top:1px solid rgba(255,255,255,.14);padding-top:14px;
+       font-size:13px;color:#a9c2b5">
+    © {{ now.year }} {{ brand.name }}. Incorporated {{ brand.founded }}. {{ brand.regulators }}.
+    <a href="https://askniid.org" target="_blank" rel="noopener" style="color:var(--gold)">
+      Verify an insurance certificate on askniid.org →</a>
+    {% if adsense %}<script async src="https://pagead2.googlesyndicate.com/pagead/js/adsbygoogle.js?client={{ adsense }}" crossorigin="anonymous"></script>{% endif %}
+  </div>
+</footer>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": ["InsuranceAgency", "LocalBusiness"],
+  "name": "{{ brand.name }}",
+  "description": "Insurance broking, risk management and claims support in Nigeria since {{ brand.founded }}.",
+  "foundingDate": "{{ brand.founded }}",
+  "telephone": "{{ brand.phone }}",
+  "email": "{{ brand.email }}",
+  "url": "{{ brand.web }}",
+  "address": {"@type": "PostalAddress", "streetAddress": "29 Berkley Street",
+              "addressLocality": "Lagos", "addressCountry": "NG"},
+  "areaServed": {"@type": "Country", "name": "Nigeria"},
+  "priceRange": "₦₦",
+  "additionalLocation": [
+    {"@type": "PostalAddress", "streetAddress": "15 Olushola Agbaje Street, Lekki Phase 1",
+     "addressLocality": "Lagos", "addressCountry": "NG"},
+    {"@type": "PostalAddress", "streetAddress": "12 Paraku Crescent, Wuse II",
+     "addressLocality": "Abuja", "addressCountry": "NG"}
+  ]
+}
+</script>
+</body>
+</html>

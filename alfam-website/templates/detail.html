@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}{{ r['ref'] }} — broker file{% endblock %}
+{% block body %}
+<section>
+  <div class="wrap">
+    <p class="muted"><a href="/admin">← Broker desk</a></p>
+    <h2>{{ r['ref'] }} — {{ r['client_name'] }}</h2>
+    <p class="muted">
+      {{ products.get(r['product'], {}).get('label', r['product']) }} ·
+      {{ r['asset'] or '—' }} · sum insured ₦{{ '{:,.0f}'.format(r['sum_insured']) }} ·
+      adjuster's value ₦{{ '{:,.0f}'.format(r['adjuster_value'] or 0) }} ·
+      {{ r['client_phone'] }} · {{ r['client_email'] }}
+    </p>
+    {% if r['product'] == 'motor' %}
+    <p class="muted">
+      {{ 'Third-party only' if r['motor_cover']=='tp' else 'Comprehensive' }} ·
+      {{ motor_tp.get(r['motor_class'], motor_tp['private']).label }} ·
+      TPPD limit ₦{{ '{:,.0f}'.format(motor_tp.get(r['motor_class'], motor_tp['private']).tppd) }}
+    </p>
+    {% endif %}
+
+    <div class="card" style="margin-top:16px">
+      <h3>1 · Go to market</h3>
+      <p class="muted" style="font-size:14px">
+        Indicative market premium for this risk:
+        <b>₦{{ '{:,.0f}'.format(band[0]) }}</b>{% if band[1] != band[0] %} –
+        <b>₦{{ '{:,.0f}'.format(band[1]) }}</b>{% endif %}.
+        Mail mode: <b>{{ mail_mode }}</b>{% if mail_mode == 'preview' %} — messages are written to
+        <code>/outbox</code> as .eml until SMTP is configured{% endif %}.
+      </p>
+      <form method="post" action="/admin/r/{{ r['id'] }}/rfq">
+        {% set cats = [] %}
+        {% for m in market %}{% if m['category'] not in cats %}{% if cats.append(m['category']) %}{% endif %}{% endif %}{% endfor %}
+        {% for cat in cats %}
+        <div style="margin-top:14px">
+          <b style="color:var(--green);font-size:14px">{{ cat }}</b>
+          <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:6px;margin-top:6px">
+            {% for m in market if m['category'] == cat %}
+            <label style="display:flex;gap:8px;align-items:flex-start;font-weight:400;font-size:13.5px;margin:0">
+              <input type="checkbox" name="insurer" value="{{ m['name'] }}" style="width:auto;margin-top:3px">
+              <span>{{ m['name'] }}</span>
+            </label>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+        <label style="margin-top:16px">Or add manually (one per line: Name &lt;email&gt;)</label>
+        <textarea name="manual" style="min-height:60px"
+          placeholder="Consolidated Hallmark Insurance Limited <underwriting@chi.example>"></textarea>
+        <p style="margin:14px 0 0"><button class="btn" type="submit">Email quotation requests</button></p>
+      </form>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h3>2 · Insurers approached</h3>
+      <table style="margin-top:10px;font-size:13px">
+        <tr><th>Insurer</th><th>Status</th><th>Response link</th></tr>
+        {% for f in rfqs %}
+        <tr><td>{{ f['insurer'] }}<br><span class="muted" style="font-size:12px">{{ f['email'] }}</span></td>
+            <td>{{ f['status'] }}</td>
+            <td><a href="/insurer/{{ f['token'] }}">open</a></td></tr>
+        {% else %}
+        <tr><td colspan="3" class="muted">Not sent yet.</td></tr>
+        {% endfor %}
+      </table>
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h3>3 · Terms received — ranked by value</h3>
+      {% if quotes %}
+      <table style="margin-top:10px">
+        <tr><th>#</th><th>Insurer</th><th>Premium (₦)</th><th>Excess (₦)</th>
+            <th>Sum insured (₦)</th><th>vs adjuster</th><th>Score</th><th>Notes</th></tr>
+        {% for q in quotes %}
+        <tr class="{% if loop.first %}best{% endif %}">
+          <td>{% if loop.first %}★{% else %}{{ loop.index }}{% endif %}</td>
+          <td><b>{{ q['insurer'] }}</b></td>
+          <td>{{ '{:,.0f}'.format(q['premium']) }}</td>
+          <td>{{ '{:,.0f}'.format(q['excess'] or 0) }}</td>
+          <td>{{ '{:,.0f}'.format(q['sum_insured'] or 0) }}</td>
+          <td>{{ '{:,.0f}'.format(q['adequacy'] * 100) }}%</td>
+          <td><b>{{ '%.1f'|format(q['score']) }}</b></td>
+          <td class="muted" style="font-size:12px">{{ q['exclusions'] or '—' }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      <p class="muted" style="font-size:13px;margin-top:10px">
+        Score = premium 40 + excess 15 + breadth 15 + claims record 10 + adequacy against the
+        adjuster's assessed value 20. Under-insurance is penalised proportionally, so the
+        cheapest quote does not automatically win.
+      </p>
+      {% else %}
+      <p class="muted">No terms received yet. Insurers submit through their private link — no
+        login, no attachment.</p>
+      {% endif %}
+    </div>
+
+    <div class="card" style="margin-top:18px">
+      <h3>4 · Send the broker report</h3>
+      <p class="muted" style="font-size:14px">
+        Generates a branded Alfam PDF comparing every option, our recommendation and the
+        exclusions — then emails it to {{ r['client_email'] }} <b>from Alfam, as the broker</b>.
+      </p>
+      <p style="margin:14px 0 0">
+        <a class="btn" target="_blank" href="/admin/r/{{ r['id'] }}/report.pdf">Preview report (PDF)</a>
+        <a class="btn dark" href="/admin/r/{{ r['id'] }}/send-report" style="margin-left:8px">Email report to client</a>
+      </p>
+    </div>
+  </div>
+</section>
+{% endblock %}

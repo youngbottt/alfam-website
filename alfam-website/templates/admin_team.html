@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Our team — broker desk{% endblock %}
+{% block body %}
+<section>
+  <div class="wrap" style="max-width:840px">
+    <h2>Our people</h2>
+    <p class="lead">Add the real names, roles and short biographies. Photographs can be dropped
+      into <code>static/img/team/</code> as we take this live.</p>
+    <div class="card">
+      <form method="post">
+        <div class="row">
+          <div><label>Name</label><input name="name" required></div>
+          <div><label>Role</label><input name="role" required></div>
+        </div>
+        <label>Short biography</label><textarea name="bio"></textarea>
+        <label>Display order</label><input type="number" name="sort" value="99">
+        <p style="margin-top:16px"><button class="btn" type="submit">Add person</button></p>
+      </form>
+    </div>
+    <table style="margin-top:20px">
+      <tr><th>Name</th><th>Role</th><th>Bio</th><th>Order</th></tr>
+      {% for r in rows %}
+      <tr><td><b>{{ r['name'] }}</b></td><td>{{ r['role'] }}</td>
+          <td class="muted">{{ (r['bio'] or '')[:90] }}</td><td>{{ r['sort'] }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Insights — insurance guidance for Nigerian businesses{% endblock %}
+{% block meta %}Practical insurance guidance from Alfam Insurance Brokers: motor rates, claims,
+under-insurance and business cover in Nigeria.{% endblock %}
+{% block body %}
+<div class="hero" style="padding:46px 0">
+  <div class="wrap"><h1>Insights</h1>
+    <p>Plain answers to the questions clients ask us most — rates, claims, under-insurance and
+      what to cover first.</p></div>
+</div>
+<section>
+  <div class="wrap">
+    <div class="grid">
+      {% for a in insights %}
+      <div class="card">
+        <div class="muted" style="font-size:12.5px">{{ a.category }} · {{ a.date }}</div>
+        <h3 style="margin-top:6px"><a href="/insights/{{ a.slug }}">{{ a.title }}</a></h3>
+        <p class="muted" style="margin:0 0 10px;font-size:14.5px">{{ a.summary }}</p>
+        <a href="/insights/{{ a.slug }}">Read →</a>
+      </div>
+      {% endfor %}
+    </div>
+    {{ ad('insights-leaderboard', 90) }}
+  </div>
+</section>
+{% endblock %}
