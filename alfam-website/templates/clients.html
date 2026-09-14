@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Our clients — Alfam Insurance Brokers{% endblock %}
+{% block body %}
+<div class="hero" style="padding:48px 0">
+  <div class="wrap">
+    <h1>Our clients</h1>
+    <p>A list of clients we work for, and have worked with, since we started business in
+      {{ brand.founded }}.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <p class="lead">You will find for your reference the clients we work for and have worked
+      with since we started business. You are free to request an opinion on our professional
+      expertise from any of them.</p>
+
+    {% set bankers = sectors.pop('Bankers', []) %}
+    {% for sector, rows in sectors.items() %}
+    <div class="card" style="margin-bottom:16px">
+      <h3>{{ sector }} <span class="muted" style="font-size:13px">({{ rows|length }})</span></h3>
+      <ul style="margin:10px 0 0;padding-left:18px;columns:2;column-gap:26px">
+        {% for r in rows %}
+        <li style="margin-bottom:5px">{{ r['name'] }}
+          {% if r['note'] %}<span class="muted"> — {{ r['note'] }}</span>{% endif %}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+
+    {{ ad('clients-leaderboard', 90) }}
+
+    {% if bankers %}
+    <div class="card" style="border-left:5px solid var(--gold)">
+      <h3>Our bankers</h3>
+      <ul style="margin:10px 0 0;padding-left:18px">
+        {% for r in bankers %}<li>{{ r['name'] }}</li>{% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <p class="muted" style="margin-top:18px;font-size:13px">
+      Add or amend entries from the broker desk: <a href="/admin/clients">/admin/clients</a>.
+      Start years are not published on this register — tell us the year each account began and
+      we will show it.
+    </p>
+  </div>
+</section>
+{% endblock %}

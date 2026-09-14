@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}About us — Alfam Insurance Brokers, since 1977{% endblock %}
+{% block body %}
+<div class="hero" style="padding:48px 0">
+  <div class="wrap">
+    <div class="badge50"><b>{{ brand.founded }}</b> — {{ years_in_business }} years ·
+      <b>{{ anniversary }}</b> is our golden jubilee</div>
+    <h1>About Alfam</h1>
+    <p>Insurance broking and risk consultancy from Lagos, since 1977.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <div class="grid">
+      <div class="card" style="grid-column:span 2">
+        <h2 style="font-size:24px">Who we are</h2>
+        <p>{{ brand.name }} was incorporated in <b>{{ brand.founded }}</b> and is duly licensed to operate as Insurance Brokers and Consultants in accordance with the laws of the Federal Republic of Nigeria. We are a member of the Nigerian Council of Registered Insurance Brokers (NCRIB), with the National Insurance Commission (NAICOM) as the general overseer.</p>
+        <p>Our head office is in Lagos, with strong holdings in Abuja, and management intends to open additional branch offices in Cross River State and some South West states. Our operations are managed by qualified professional brokers with impressive records in both the Nigerian domestic and worldwide insurance markets.</p>
+        <p>We maintain adequate professional indemnity cover with reputable insurers to protect you in the event of any professional negligence on our part in the course of serving you. Our clients cut across oil and gas, finance, government parastatals, construction and manufacturing — and we transact with reputable underwriters throughout the country.</p>
+        <p><b>We act for you, not the insurer.</b> That single line is the whole point of a broker, and it is how we have worked for {{ years_in_business }} years.</div>
+      <div class="card">
+        <h3>At a glance</h3>
+        <p class="muted" style="margin:0 0 10px"><b>Incorporated</b><br>{{ brand.founded }}</p>
+        <p class="muted" style="margin:0 0 10px"><b>Offices</b><br>Lagos · Lekki Phase 1 · Abuja</p>
+        <p class="muted" style="margin:0 0 10px"><b>Regulator</b><br>NAICOM · member of NCRIB</p>
+        <p class="muted" style="margin:0"><b>Sectors served</b><br>Oil &amp; gas · banking &amp;
+          finance · government parastatals · construction · manufacturing · maritime · SMEs</p>
+      </div>
+    </div>
+
+    <h2 style="margin-top:34px">Our journey</h2>
+    <p class="lead">Five decades of placing risk in Nigeria.</p>
+    <div class="timeline">
+      <div><b>1977</b> — The company is incorporated and licensed as insurance brokers and
+        consultants, operating from Lagos.</div>
+      <div><b>1980s</b> — Early corporate accounts in manufacturing and banking; the
+        claims-handling desk is formalised.</div>
+      <div><b>1990s</b> — Expansion into oil &amp; gas and government parastatal portfolios;
+        Abuja office opened to serve the Federal Capital Territory.</div>
+      <div><b>2000s</b> — Risk management and loss-adjustment support added; marine,
+        engineering and energy placements grow.</div>
+      <div><b>2010s</b> — Lekki Phase 1 office opens; SME and retail propositions launched.</div>
+      <div><b>2020s</b> — Digital placement: insurer requests, responses and ranking handled
+        on our own platform.</div>
+      <div><b>{{ anniversary }}</b> — Fifty years of broking. Golden jubilee.</div>
+    </div>
+
+    {{ ad('about-mpu', 250) }}
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>How we are different</h2>
+    <div class="grid">
+      <div class="card"><h3>We compare, then recommend</h3>
+        <p class="muted" style="margin:0">Every option is scored on value, not price alone.</p></div>
+      <div class="card"><h3>We watch the assessed value</h3>
+        <p class="muted" style="margin:0">Under-insurance against the adjuster's figure is
+          penalised in our ranking.</p></div>
+      <div class="card"><h3>We stay for the claim</h3>
+        <p class="muted" style="margin:0">Placement is the start, not the end.</p></div>
+    </div>
+  </div>
+</section>
+{% endblock %}

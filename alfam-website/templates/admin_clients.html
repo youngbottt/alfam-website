@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Client register — Alfam{% endblock %}
+{% block body %}
+<section>
+  <div class="wrap" style="max-width:900px">
+    <h2>Client register</h2>
+    <p class="lead">These appear on the public <a href="/clients">Our clients</a> page.
+      Replace the sample rows with your real accounts — name, sector and the year we started.</p>
+
+    <div class="card">
+      <h3>Add a client</h3>
+      <form method="post">
+        <div class="row">
+          <div><label>Client name</label><input name="name" required></div>
+          <div><label>Sector</label><input name="sector" placeholder="Oil & Gas"></div>
+        </div>
+        <div class="row">
+          <div><label>With us since</label><input name="since" placeholder="1997"></div>
+          <div><label>Note (optional)</label><input name="note"></div>
+        </div>
+        <p style="margin-top:16px">
+          <button class="btn" type="submit">Add client</button>
+          <label style="display:inline;font-weight:400;margin-left:14px">
+            <input type="checkbox" name="clear" value="yes" style="width:auto"> also delete sample rows
+          </label>
+        </p>
+      </form>
+    </div>
+
+    <table style="margin-top:20px">
+      <tr><th>Client</th><th>Sector</th><th>Since</th><th>Note</th></tr>
+      {% for r in rows %}
+      <tr><td><b>{{ r['name'] }}</b></td><td>{{ r['sector'] }}</td><td>{{ r['since'] }}</td>
+          <td class="muted">{{ r['note'] or '—' }}</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</section>
+{% endblock %}
